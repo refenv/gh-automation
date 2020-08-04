@@ -1,0 +1,160 @@
+#
+# Build qemu/x86_64-softmmu on Debian Bullseye
+# Build a debian:bullseye based docker image
+#  - Containing the qemu-build
+#  - Containing latest CIJOE
+#  - envs, guests and scripts for CIJOE
+#
+# Uses the qemu from https://irrelevant.dk/g/pci-nvme.git/ tag: 'edge'
+# Uses the latest CIJOE available from PyPI
+#
+name: refenv.dockerize
+
+on:
+  push:
+    branches: [ refenv.dockerize ]
+
+  schedule:
+  - cron:  '15 4,21 * * *'
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+
+  build-qemu:
+
+    runs-on: ubuntu-latest
+    container: debian:bullseye
+
+    steps:
+    - name: Prepare environment
+      run: |
+        apt-get -qy update
+        apt-get -qy \
+          -o "Dpkg::Options::=--force-confdef" \
+          -o "Dpkg::Options::=--force-confold" upgrade
+        apt-get -qy autoclean
+        apt-get -qy install aptitude
+        aptitude -q -y -f install \
+        apt-utils \
+        autoconf \
+        automake \
+        bc \
+        bison \
+        bridge-utils \
+        build-essential \
+        ca-certificates \
+        cpio \
+        flex \
+        gawk \
+        git \
+        libaio-dev \
+        libaudit-dev \
+        libblkid-dev \
+        libcap-dev \
+        libcap-ng-dev \
+        libdw-dev \
+        libelf-dev \
+        libffi-dev \
+        libglib2.0-0 \
+        libglib2.0-dev \
+        libguestfs-tools \
+        libltdl-dev \
+        liblzo2-dev \
+        libmount-dev \
+        libpixman-1-dev \
+        libpmem-dev \
+        libselinux1-dev \
+        libtool \
+        libvirt-bin \
+        pkg-config \
+        python3 \
+        python3-dev \
+        rsync \
+        texinfo \
+        vde2 \
+        zlib1g-dev
+
+    - name: Grab qemu source
+      run: |
+        git clone --recursive https://irrelevant.dk/g/pci-nvme.git qemu
+        cd qemu
+        git checkout edge
+
+    - name: Configure qemu
+      run: |
+        mkdir build
+        git -C qemu rev-parse --short HEAD > build/docker_tag.txt
+        cd build
+        ../qemu/configure \
+            --prefix=/ \
+            --python=/usr/bin/python3 \
+            --audio-drv-list="" \
+            --disable-docs \
+            --disable-debug-info \
+            --disable-opengl \
+            --disable-virglrenderer \
+            --disable-vte \
+            --disable-gtk \
+            --disable-sdl \
+            --disable-spice \
+            --disable-vnc \
+            --disable-curses \
+            --disable-xen \
+            --disable-smartcard \
+            --disable-libnfs \
+            --disable-libusb \
+            --disable-glusterfs \
+            --disable-tools \
+            --disable-werror \
+            --target-list="x86_64-softmmu"
+
+    - name: Build qemu
+      run: |
+        cd build
+        make -j $(nproc)
+        chmod +x x86_64-softmmu/qemu-system-x86_64
+
+    - name: Upload Binaries
+      uses: actions/upload-artifact@v2
+      with:
+        name: qemu-binaries
+        path: build
+
+  build-docker:
+    needs: build-qemu
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Grab sources
+      uses: actions/checkout@v2
+
+    - name: Create a docker context
+      run: |
+        mkdir -p /tmp/docker
+        mv envs /tmp/docker/.
+        mv guests /tmp/docker/.
+        mv scripts /tmp/docker/.
+
+    - name: Grab the qemu binaries
+      uses: actions/download-artifact@v2
+      with:
+        name: qemu-binaries
+        path: /tmp/docker/qemu
+
+    - name: Log into docker registry
+      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+    - name: Build Docker image
+      run: |
+        TAG=$(cat /tmp/docker/qemu/docker_tag.txt)
+        docker build \
+          -t refenv/qemu-nvme:latest \
+          -t refenv/qemu-nvme:${TAG} \
+          -f docker/Dockerfile /tmp/docker
+
+    - name: Push Docker image
+      run: docker push refenv/qemu-nvme
