@@ -17,29 +17,34 @@ RUN apt-get -qy update && \
 		-o "Dpkg::Options::=--force-confdef" \
 		-o "Dpkg::Options::=--force-confold" upgrade && \
 	apt-get -qy autoclean && \
-	apt-get -qy install aptitude && \
-	aptitude -q -y -f install \
-		bridge-utils \
-		cloud-image-utils \
-		git \
-		htop \
-		libaio-dev \
-		libglib2.0-0 \
-		libglib2.0-dev \
-		libguestfs-tools \
-		liblzo2-dev \
-		libpixman-1-dev \
-		libpmem-dev \
-		libvirt-dev \
-		libvirt0 \
-		lshw \
-		openssh-server \
-		procps \
-		python3 \
-		python3-pip \
-		ssh \
-		time \
-		vim
+	apt-get -qy install aptitude
+
+RUN aptitude -q -y -f install \
+	libaio-dev \
+	libglib2.0-0 \
+	libglib2.0-dev \
+	libguestfs-tools \
+	liblzo2-dev \
+	libpixman-1-dev \
+	libpmem-dev \
+	libvirt-dev \
+	libvirt0
+
+RUN aptitude -q -y -f install \
+	bridge-utils \
+	cloud-image-utils \
+	git \
+	htop \
+	lshw \
+	openssh-server \
+	procps \
+	ssh \
+	time \
+	vim
+
+RUN aptitude -q -y -f install \
+	python3 \
+	python3-pip
 
 RUN ln -s /usr/bin/python3.8 /usr/bin/python
 
