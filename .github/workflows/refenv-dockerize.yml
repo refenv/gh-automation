@@ -29,14 +29,18 @@ jobs:
     container: debian:bullseye
 
     steps:
-    - name: Prepare environment
+    - name: Prep, Update and upgrade system
       run: |
         apt-get -qy update
         apt-get -qy \
           -o "Dpkg::Options::=--force-confdef" \
           -o "Dpkg::Options::=--force-confold" upgrade
-        apt-get -qy autoclean
         apt-get -qy install aptitude
+        apt-get -qy autoclean
+
+    steps:
+    - name: Prep, install build-requirements
+      run: |
         aptitude -q -y -f install \
         apt-utils \
         autoconf \
@@ -64,6 +68,7 @@ jobs:
         libltdl-dev \
         liblzo2-dev \
         libmount-dev \
+        libpixman-1-0 \
         libpixman-1-dev \
         libpmem-dev \
         libselinux1-dev \
