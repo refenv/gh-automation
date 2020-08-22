@@ -43,7 +43,8 @@ RUN apt-get -qy update && \
 
 RUN ln -s /usr/bin/python3.8 /usr/bin/python
 
-RUN pip install cijoe
+RUN pip install cijoe || true
+RUN pip3 install cijoe || true
 
 # Setup SSH
 RUN echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
