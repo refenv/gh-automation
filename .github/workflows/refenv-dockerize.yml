@@ -81,6 +81,12 @@ jobs:
         vde2 \
         zlib1g-dev
 
+    - name: Prep, pixman, whats wrong...
+      run: |
+        aptitude -q -y -f install \
+        libpixman-1-0 \
+        libpixman-1-dev
+
     - name: Grab qemu source
       run: |
         git clone --recursive https://irrelevant.dk/g/pci-nvme.git qemu
