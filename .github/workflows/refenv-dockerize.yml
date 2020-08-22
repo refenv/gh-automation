@@ -38,7 +38,6 @@ jobs:
         apt-get -qy install aptitude
         apt-get -qy autoclean
 
-    steps:
     - name: Prep, install build-requirements
       run: |
         aptitude -q -y -f install \
