@@ -25,10 +25,13 @@ RUN aptitude -q -y -f install \
 	libglib2.0-dev \
 	libguestfs-tools \
 	liblzo2-dev \
-	libpixman-1-dev \
 	libpmem-dev \
 	libvirt-dev \
 	libvirt0
+
+RUN aptitude -q -y -f install \
+	libpixman-1-0 \
+	libpixman-1-dev
 
 RUN aptitude -q -y -f install \
 	bridge-utils \
