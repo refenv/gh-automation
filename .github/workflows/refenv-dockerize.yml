@@ -73,6 +73,8 @@ jobs:
         libselinux1-dev \
         libtool \
         libvirt-bin \
+        meson \
+        ninja-build \
         pkg-config \
         python3 \
         python3-dev \
