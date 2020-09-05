@@ -112,7 +112,7 @@ jobs:
         git -C qemu rev-parse --short HEAD > build/docker_tag.txt
         cd build
         ../qemu/configure \
-            --prefix=/ \
+            --prefix=/usr \
             --python=/usr/bin/python3 \
             --audio-drv-list="" \
             --disable-docs \
