@@ -104,7 +104,7 @@ jobs:
       run: |
         git clone --recursive https://irrelevant.dk/g/pci-nvme.git qemu
         cd qemu
-        git checkout edge
+        git checkout edge-pre_meson
 
     - name: Configure qemu
       run: |
@@ -112,7 +112,7 @@ jobs:
         git -C qemu rev-parse --short HEAD > build/docker_tag.txt
         cd build
         ../qemu/configure \
-            --prefix=/usr \
+            --prefix=/opt/qemu \
             --python=/usr/bin/python3 \
             --audio-drv-list="" \
             --disable-docs \
