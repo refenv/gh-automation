@@ -29,7 +29,7 @@ jobs:
     container: debian:bullseye
 
     steps:
-    - name: Prep, Update and upgrade system
+    - name: Prep, ...
       run: |
         apt-get -qy update
         apt-get -qy \
@@ -41,7 +41,7 @@ jobs:
           pkg-config
         apt-get -qy autoclean
 
-    - name: Prep, install build-requirements
+    - name: Prep, ....
       run: |
         aptitude -q -y -f install \
         autoconf \
@@ -57,7 +57,7 @@ jobs:
         git \
         rsync
 
-    - name: Prep, install build-requirements
+    - name: Prep, .....
       run: |
         aptitude -q -y -f install \
         python3 \
@@ -65,7 +65,7 @@ jobs:
         python3-distutils \
         python3-setuptools
 
-    - name: Prep, install build-requirements
+    - name: Prep, ......
       run: |
         aptitude -q -y -f install \
         libaio-dev \
@@ -94,7 +94,7 @@ jobs:
         vde2 \
         zlib1g-dev
 
-    - name: Prep, pixman, whats wrong...
+    - name: Prep, .......
       run: |
         aptitude -q -y -f install \
         libpixman-1-0 \
