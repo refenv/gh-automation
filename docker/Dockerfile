@@ -10,7 +10,7 @@ COPY qemu qemu
 
 COPY scripts scripts
 
-RUN chmod +x qemu/x86_64-softmmu/qemu-system-x86_64
+RUN chmod +x qemu/bin/qemu-system-x86_64
 
 RUN apt-get -qy update && \
 	apt-get -qy \

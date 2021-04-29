@@ -13,7 +13,7 @@
 : "${QEMU_HOST:=localhost}"; export QEMU_HOST
 : "${QEMU_HOST_USER:=$USER}"; export QEMU_HOST_USER
 : "${QEMU_HOST_PORT:=22}"; export QEMU_HOST_PORT
-: "${QEMU_HOST_SYSTEM_BIN:=/opt/qemu/x86_64-softmmu/qemu-system-x86_64}"; export QEMU_HOST_SYSTEM_BIN
+: "${QEMU_HOST_SYSTEM_BIN:=/opt/qemu/bin/qemu-system-x86_64}"; export QEMU_HOST_SYSTEM_BIN
 : "${QEMU_HOST_IMG_BIN:=qemu-img}"; export QEMU_HOST_IMG_BIN
 
 : "${QEMU_GUESTS:=/opt/guests}"; export QEMU_GUESTS

@@ -20,17 +20,15 @@ jobs:
     steps:
     - name: Define stuff
       run: |
-        echo "::set-env name=CLOUD_IMG_URL::https://cloud.debian.org/images/cloud/bullseye/daily/20200807-351/debian-11-generic-amd64-daily-20200807-351.qcow2"
-        echo "::set-env name=ARTIFACTS::/tmp/artifacts"
-        echo "::set-env name=ARTIFACTS_LATEST::/tmp/artifacts/latest"
-        echo "::set-env name=RESULTS::/tmp/results"
-        echo "::set-env name=RESULTS_LATEST::/tmp/results/latest"
-        echo "::set-env name=TARGET_ENV::/opt/envs/localhost-qemu.sh"
+        echo "ARTIFACTS=/tmp/artifacts" >> $GITHUB_ENV
+        echo "RESULTS=/tmp/results" >> $GITHUB_ENV
+        echo "TARGET_ENV=/opt/envs/localhost-qemu.sh" >> $GITHUB_ENV
+        echo "CLOUD_IMG_URL=https://cloud.debian.org/images/cloud/bullseye/daily/20210425-618/debian-11-generic-amd64-daily-20210425-618.qcow2" >> $GITHUB_ENV
 
     - name: Create result and artifacts directories
       run: |
-        mkdir -p ${ARTIFACTS_LATEST}
-        mkdir -p ${RESULTS_LATEST}
+        mkdir -p ${ARTIFACTS}
+        mkdir -p ${RESULTS}
 
     - name: Start the SSH server
       run: service ssh restart
@@ -49,9 +47,10 @@ jobs:
       run: |
         source /opt/scripts/suitup.sh
         cij_runner \
+          --testplan \
           $CIJ_TESTPLANS/example_01_usage.plan \
-          ${TARGET_ENV} \
-          --output ${RESULTS_LATEST}
+          --env ${TARGET_ENV} \
+          --output ${RESULTS}
 
     - name: QEMU, kill the guest
       run: |
@@ -66,11 +65,16 @@ jobs:
       if: always()
       run: |
         source /opt/scripts/suitup.sh
-        cij_reporter ${RESULTS_LATEST}
+        cij_reporter --output "${RESULTS}"
 
     - name: CIJOE, upload test results and report
       uses: actions/upload-artifact@v2
       if: always()
       with:
         name: test-results
-        path: /tmp/results/*
+        path: ${{ env.RESULTS }}/*
+
+    # The git-hub-actions-runner does not cleanup after itself
+    - name: Self-hosted, cleanup
+      if: always()
+      run: rm -rf *
