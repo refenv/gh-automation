@@ -36,26 +36,26 @@ jobs:
     - name: QEMU, provision guest using Debian cloud image
       run: |
         source /opt/scripts/suitup.sh
-        qemu::img_from_url "${CLOUD_IMG_URL}"
+        qemu.img_from_url "${CLOUD_IMG_URL}"
 
     - name: QEMU, start the guest
       run: |
         source /opt/scripts/suitup.sh
-        qemu::run
+        qemu.run
 
     - name: CIJOE, invoke the test-runner targeting the qemu-guest
       run: |
         source /opt/scripts/suitup.sh
         cij_runner \
           --testplan \
-          $CIJ_TESTPLANS/example_01_usage.plan \
+          $CIJ_TESTPLANS/example_01.plan \
           --env ${TARGET_ENV} \
           --output ${RESULTS}
 
     - name: QEMU, kill the guest
       run: |
         source /opt/scripts/suitup.sh
-        qemu::kill
+        qemu.kill
 
     - name: CIJOE, result-log-dump on error
       if: failure()
