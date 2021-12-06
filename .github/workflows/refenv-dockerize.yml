@@ -88,15 +88,18 @@ jobs:
 
     - name: Grab qemu source
       run: |
-        git clone --recursive https://github.com/qemu/qemu.git
+        #git clone --recursive https://github.com/qemu/qemu.git
+        git clone --recursive https://gitlab.com/birkelund/qemu.git
         cd qemu
-        git checkout v6.0.0
+        #git checkout v6.0.0
+        git checkout zrwa
 
     - name: Configure qemu
       run: |
         mkdir build
         mkdir /opt/qemu
-        echo "v6.0.0" > /opt/qemu/docker_tag.txt
+        git -C qemu rev-parse --short HEAD > /opt/qemu/docker_tag.txt
+        #echo "v6.0.0" > /opt/qemu/docker_tag.txt
         cd build
         ../qemu/configure \
             --prefix=/opt/qemu \
