@@ -23,7 +23,7 @@ jobs:
         echo "ARTIFACTS=/tmp/artifacts" >> $GITHUB_ENV
         echo "RESULTS=/tmp/results" >> $GITHUB_ENV
         echo "TARGET_ENV=/opt/envs/localhost-qemu.sh" >> $GITHUB_ENV
-        echo "CLOUD_IMG_URL=https://cloud.debian.org/images/cloud/bullseye/daily/20210425-618/debian-11-generic-amd64-daily-20210425-618.qcow2" >> $GITHUB_ENV
+        echo "CLOUD_IMG_URL=https://cloud.debian.org/images/cloud/bullseye/latest/debian-11-generic-amd64.qcow2" >> $GITHUB_ENV
 
     - name: Create result and artifacts directories
       run: |
