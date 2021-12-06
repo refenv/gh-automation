@@ -1,5 +1,15 @@
 # GitHUB Actions
 
+This repository stores workflow definitions to produce reference environment for NVMe test and
+development via qemu encapsulated in a docker container and with CIJOE for test-instrumentation.
+The workflows are named as:
+
+* ``refenv-dockerize``
+* ``refenv-testing``
+
+Descriptions and status of the workflows follow. The sections following describe the CI/CD
+infrastructure needed to utilize the docker image on GitHUB / DigitalOcean infrastructure.
+
 ## Refenv Dockerize
 
 [![Status](https://github.com/refenv/actions/workflows/refenv.dockerize/badge.svg)](https://github.com/refenv/actions/actions?query=workflow%3Arefenv.dockerize)
@@ -17,11 +27,11 @@ and push it to:
 
 [![Status](https://github.com/refenv/actions/workflows/refenv.testing/badge.svg)](https://github.com/refenv/actions/actions?query=workflow%3Arefenv.testing)
 
-Demonstrate how to use the docker-image, that is, running test with CIJOE:
+Demonstrate how to use the docker image produced by the , that is, running test with CIJOE:
 
-Produces test-reports as artifacts
+* Produces test-reports as artifacts
 
-## Self-hosted runners
+# Self-hosted runners
 
 We need support for:
 
