@@ -2,13 +2,7 @@ FROM debian:bullseye
 
 WORKDIR /opt
 
-COPY envs envs
-
-COPY guests guests
-
 COPY qemu qemu
-
-COPY scripts scripts
 
 RUN chmod +x qemu/bin/qemu-system-x86_64
 
@@ -51,8 +45,9 @@ RUN aptitude -q -y -f install \
 
 RUN ln -s /usr/bin/python3.8 /usr/bin/python
 
-RUN pip install cijoe cijoe-pkg-example || true
-RUN pip3 install cijoe cijoe-pkg-example || true
+# Install cijoe and the packages example and qemu packages
+RUN pip install cijoe cijoe-pkg-example cijoe-pkg-qemu || true
+RUN pip3 install cijoe cijoe-pkg-example cijoe-pkg-qemu || true
 
 # Setup SSH
 RUN echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
@@ -69,10 +64,5 @@ RUN echo "  StrictHostKeyChecking no" >> /root/.ssh/config
 RUN echo "  NoHostAuthenticationForLocalhost yes" >> /root/.ssh/config
 RUN echo "  UserKnownHostsFile=/dev/null" >> /root/.ssh/config
 RUN chmod 0400 /root/.ssh/config
-
-# Add the ssh-pub-key to the cloud-config of the emujoe qemu-guest
-RUN echo "ssh_authorized_keys:" >> /opt/guests/emujoe/user-data
-RUN echo -n "- " >> /opt/guests/emujoe/user-data
-RUN cat /root/.ssh/id_rsa.pub >> /opt/guests/emujoe/user-data
 
 CMD ["bash"]

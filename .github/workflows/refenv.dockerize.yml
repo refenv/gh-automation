@@ -88,10 +88,8 @@ jobs:
 
     - name: Grab qemu source
       run: |
-        #git clone --recursive https://github.com/qemu/qemu.git
         git clone --recursive https://gitlab.com/birkelund/qemu.git
         cd qemu
-        #git checkout v6.0.0
         git checkout zrwa
 
     - name: Configure qemu
@@ -99,7 +97,6 @@ jobs:
         mkdir build
         mkdir /opt/qemu
         git -C qemu rev-parse --short HEAD > /opt/qemu/docker_tag.txt
-        #echo "v6.0.0" > /opt/qemu/docker_tag.txt
         cd build
         ../qemu/configure \
             --prefix=/opt/qemu \
@@ -148,9 +145,6 @@ jobs:
     - name: Create a docker context
       run: |
         mkdir -p /tmp/docker
-        mv envs /tmp/docker/.
-        mv guests /tmp/docker/.
-        mv scripts /tmp/docker/.
 
     - name: Grab the qemu binaries
       uses: actions/download-artifact@v2
