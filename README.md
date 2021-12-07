@@ -14,12 +14,17 @@ infrastructure needed to utilize the docker image on GitHUB / DigitalOcean infra
 
 [![Status](https://github.com/refenv/actions/workflows/refenv.dockerize/badge.svg)](https://github.com/refenv/actions/actions?query=workflow%3Arefenv.dockerize)
 
-Produce a docker-image containing:
+Produce a Docker image containing:
 
-* [CIJOE](https://github.com/refenv/cijoe)
-* [QEMU /pci-nvme:edge](https://irrelevant.dk/g/pci-nvme.git/)
+* [cijoe](https://github.com/refenv/cijoe) the core **cijoe** tools
+* [cijoe-pkg-example](https://github.com/refenv/cijoe-pkg-example): example packages useful for
+  testing the plumbing end-to-end
+* QEMU: specifically the ``zrwa`` branch on remote
+  [birkelund](https://gitlab.com/birkelund/qemu.git)
+* Along with a couple of scripts, found in this repos, bootstrapping the qemu-guest via Debian
+  cloud-install
 
-and push it to:
+and push the Docker image to:
 
 * https://hub.docker.com/repository/docker/refenv/qemu-nvme/
 
@@ -27,9 +32,11 @@ and push it to:
 
 [![Status](https://github.com/refenv/actions/workflows/refenv.testing/badge.svg)](https://github.com/refenv/actions/actions?query=workflow%3Arefenv.testing)
 
-Demonstrate how to use the docker image produced by the , that is, running test with CIJOE:
+Demonstrate how to use the Docker image produced by the ``refenv.dockerize`` workflow, that is, to:
 
-* Produces test-reports as artifacts
+* Run tests inside the container, bootstrapping the qemu-guest and running **cijoe** using the
+  qemu-guest as a **test-target**
+* Collect the **cijoe** test-report as artifacts
 
 # Self-hosted runners
 
