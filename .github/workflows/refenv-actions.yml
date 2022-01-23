@@ -1,0 +1,58 @@
+name: refenv.actions
+
+on:
+  push:
+    branches: [ refenv.actions ]
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  cijoe_qemu_target:
+    runs-on: self-hosted
+    container:
+      image: refenv/qemu-nvme:latest
+      options: --privileged
+
+    name: cijoe-qemu, usage example
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Provision qemu-guest
+        id: cijoe-qemu
+        uses: refenv/gh-cijoe-qemu-action@main
+        with:
+          vm-image: 'https://cloud.debian.org/images/cloud/bullseye/daily/latest/debian-11-genericcloud-amd64-daily.qcow2'
+
+      - name: CIJOE, run commands inside the qemu-guest
+        run: |
+          source /opt/scripts/suitup.sh
+          cij.cmd "hostname"
+          cij.cmd "lspci"
+
+      - name: CIJOE, run testplans using qemu-guest as test-target
+        run: |
+          source /opt/scripts/suitup.sh
+          cij_runner \
+            --env ${{ steps.cijoe-qemu.outputs.target-env }} \
+            --output ${{ steps.cijoe-qemu.outputs.results }} \
+            --testplan \
+            "${CIJ_TESTPLANS}/example_01.plan"
+
+      - name: CIJOE, result-log-dump on error
+        if: failure()
+        run: find ${{ steps.cijoe-qemu.outputs.results }} -name "*.log" | xargs cat
+
+      - name: CIJOE, generate report from results
+        if: always()
+        run: |
+          source /opt/scripts/suitup.sh
+          cij_reporter --output ${{ steps.cijoe-qemu.outputs.results }}
+
+      - name: CIJOE, upload test results and report
+        uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: test-results
+          path: ${{ steps.cijoe-qemu.outputs.results }}/*
