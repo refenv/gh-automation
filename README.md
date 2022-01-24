@@ -1,14 +1,19 @@
-# GitHUB Actions
+# GitHUB Reference Environment Automation
 
 This repository stores workflow definitions to produce reference environment for NVMe test and
-development via qemu encapsulated in a docker container and with CIJOE for test-instrumentation.
-The workflows are named as:
+development via emulation provided by qemu, encapsulated in a docker container and with CIJOE for
+test-instrumentation. The workflows are named as:
 
-* ``refenv-dockerize``
-* ``refenv-testing``
+* ``refenv-dockerize``, produces a Docker-image with cijoe + qemu and publishes it on DockerHub
+* ``refenv-actions``, provides an example of using the Docker-image via GitHUB actions
+* ``refenv-testing``, provides an example of using the Docker-image "manually", note this is not
+  recommended now that a GitHUB action is available, in case you want something that the GitHUB
+  action does not support then consider changing the GitHUB action instead
 
 Descriptions and status of the workflows follow. The sections following describe the CI/CD
 infrastructure needed to utilize the docker image on GitHUB / DigitalOcean infrastructure.
+Specifically, self-hosted runners with support for nested-virtualization is a requirement for qemu
+to run reasonable fast.
 
 ## Refenv Dockerize
 
@@ -27,6 +32,17 @@ Produce a Docker image containing:
 and push the Docker image to:
 
 * https://hub.docker.com/repository/docker/refenv/qemu-nvme/
+
+## Refenv Actions
+
+[![Status](https://github.com/refenv/actions/workflows/refenv.actions/badge.svg)](https://github.com/refenv/actions/actions?query=workflow%3Arefenv.actions)
+
+This workflow shows how to:
+
+* Call the GitHUB Action instantiating a qemu-guest / VM with the given cloud-init image
+* Run commands inside the qemu-guest/VM
+* Run **cijoe** testplans using the qemu-guest/VM as test-target
+* Emit **cijoe** testplan results and reports as workflow-artifacts
 
 ## Refenv Testing
 
