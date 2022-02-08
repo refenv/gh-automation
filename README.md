@@ -18,7 +18,7 @@ See the Appendix section for background information to skim through if the above
 
 [![Status](https://github.com/refenv/actions/workflows/refenv.dockerize/badge.svg)](https://github.com/refenv/actions/actions?query=workflow%3Arefenv.dockerize)
 
-This GitHUB Actions Workflow takes about 10 minutes to complete, here is what it does:
+This workflow takes about 16 minutes to complete, here is what it does:
 
 * Retrieves the qemu source-code, specifically the ``zrwa`` branch on remote
   [birkelund](https://gitlab.com/birkelund/qemu.git) and builds it for x86 system emulation
@@ -37,6 +37,8 @@ This GitHUB Actions Workflow takes about 10 minutes to complete, here is what it
 ## Refenv Actions
 
 [![Status](https://github.com/refenv/actions/workflows/refenv.actions/badge.svg)](https://github.com/refenv/actions/actions?query=workflow%3Arefenv.actions)
+
+This workflow takes about 3 minutes to complete.
 
 This workflow shows how to utitlize the custom GitHub Action for cijoe/qemu, here is what it does:
 
