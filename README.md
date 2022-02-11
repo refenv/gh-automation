@@ -6,6 +6,8 @@ test-instrumentation. The workflows are named as:
 
 * ``refenv.dockerize``, produces a Docker-image with cijoe + qemu and publishes it on DockerHub
 * ``refenv.actions``, provides an example of using the Docker-image via GitHUB actions
+* ``refenv.alpine-bash``, this is unrelated to the other two, it just provides an Alpine Linux
+  Docker image on DockerHub with Bash as default instead of ``sh``. It is re-build daily.
 
 Descriptions and status of the workflows follow. The sections following describe the CI/CD
 infrastructure needed to utilize the docker image on GitHUB / DigitalOcean infrastructure.
@@ -16,7 +18,8 @@ See the Appendix section for background information to skim through if the above
 
 ## Refenv Dockerize
 
-[![Status](https://github.com/refenv/actions/workflows/refenv.dockerize/badge.svg)](https://github.com/refenv/actions/actions?query=workflow%3Arefenv.dockerize)
+[![Status](https://github.com/refenv/gh-automation/workflows/refenv.dockerize/badge.svg)](https://github.com/refenv/gh-automation/actions?query=workflow%3Arefenv.dockerize)
+[![Docker Pulls](https://img.shields.io/docker/pulls/refenv/qemu-nvme)](https://hub.docker.com/r/refenv/qemu-nvme)
 
 This workflow takes about 16 minutes to complete, here is what it does:
 
@@ -36,7 +39,7 @@ This workflow takes about 16 minutes to complete, here is what it does:
 
 ## Refenv Actions
 
-[![Status](https://github.com/refenv/actions/workflows/refenv.actions/badge.svg)](https://github.com/refenv/actions/actions?query=workflow%3Arefenv.actions)
+[![Status](https://github.com/refenv/gh-automation/workflows/refenv.actions/badge.svg)](https://github.com/refenv/gh-automation/actions?query=workflow%3Arefenv.actions)
 
 This workflow takes about 3 minutes to complete.
 
@@ -47,6 +50,15 @@ This workflow shows how to utitlize the custom GitHub Action for cijoe/qemu, her
 * Starts the provisioned qemu-guest
 * Runs commands inside the qemu-guest via **cijoe** 'cij.cmd'
 * Runs **cijoe** testplans using the qemu-guest as test-target
+
+## Refenv Alpine-Bash
+
+[![Status](https://github.com/refenv/gh-automation/workflows/refenv.alpine-bash/badge.svg)](https://github.com/refenv/gh-automation/actions?query=workflow%3Arefenv.alpine-bash)
+[![Docker Pulls](https://img.shields.io/docker/pulls/refenv/alpine-bash)](https://hub.docker.com/r/refenv/alpine-bash)
+
+This workflow is run nightly, it produces a docker image based on ``alpine:latest`` with nothing
+but Bash added to it. This is done to have the latest Alpine available for GitHUB CI actions which
+use Bash as the default shell.
 
 # Self-hosted runners
 
