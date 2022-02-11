@@ -5,6 +5,8 @@
 name: refenv.alpine-bash
 
 on:
+  schedule:
+    - cron: "0 2 * * *"
   push:
     branches: [ refenv.alpine-bash ]
 
