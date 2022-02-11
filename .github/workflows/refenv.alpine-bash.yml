@@ -1,0 +1,42 @@
+#
+# Create a alpine image, exactly the same as 'alpine:latest' but with bash instead of 'sh'
+# This is to have the latest Alpine Linux image available for GitHUB CI actions
+#
+name: refenv.alpine-bash
+
+on:
+  push:
+    branches: [ refenv.alpine-bash ]
+
+# Disable schedule since it is currently not used
+#  schedule:
+#  - cron:  '15 4,21 * * *'
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+
+  build-alpine-bash:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Grab sources
+      uses: actions/checkout@v2
+
+    - name: Log into docker registry
+      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+    - name: Create a docker context
+      run: |
+        mkdir -p /tmp/docker
+
+    - name: Build Docker image
+      run: |
+        docker build \
+          -t refenv/alpine-bash:latest \
+          -f alpine-bash/Dockerfile /tmp/docker
+
+    - name: Push Docker image
+      run: docker push refenv/alpine-bash
