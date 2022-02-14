@@ -57,8 +57,9 @@ This workflow shows how to utitlize the custom GitHub Action for cijoe/qemu, her
 [![Docker Pulls](https://img.shields.io/docker/pulls/refenv/alpine-bash)](https://hub.docker.com/r/refenv/alpine-bash)
 
 This workflow is run nightly, it produces a docker image based on ``alpine:latest`` with nothing
-but Bash added to it. This is done to have the latest Alpine available for GitHUB CI actions which
-use Bash as the default shell.
+but ``Bash`` and ``git`` added to it. This is done to have the latest Alpine available for
+consumption by GitHUB CI actions which use Bash as the default shell and typically use ``git`` for
+checking out the source.
 
 # Self-hosted runners
 
