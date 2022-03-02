@@ -2,13 +2,13 @@
 # Create a alpine image, exactly the same as 'alpine:latest' but with bash instead of 'sh'
 # This is to have the latest Alpine Linux image available for GitHUB CI actions
 #
-name: refenv.alpine-bash
+name: dockerize.alpine-bash
 
 on:
   schedule:
     - cron: "0 2 * * *"
   push:
-    branches: [ refenv.alpine-bash ]
+    branches: [ dockerize.alpine-bash ]
 
 # Disable schedule since it is currently not used
 #  schedule:

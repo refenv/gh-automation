@@ -1,8 +1,8 @@
-name: refenv.actions
+name: run.cijoe-qemu-action
 
 on:
   push:
-    branches: [ refenv.actions ]
+    branches: [ run.cijoe-qemu-action ]
 
 defaults:
   run:

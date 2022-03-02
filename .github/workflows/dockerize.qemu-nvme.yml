@@ -5,14 +5,14 @@
 #  - Containing latest CIJOE
 #  - envs, guests and scripts for CIJOE
 #
-# Uses the qemu from https://github.com/qemu/qemu.git tag: 'v6.0.0'
+# Uses the qemu from https://github.com/qemu/qemu.git branch: 'zrwa'
 # Uses the latest CIJOE available from PyPI
 #
-name: refenv.dockerize
+name: dockerize.qemu-nvme
 
 on:
   push:
-    branches: [ refenv.dockerize ]
+    branches: [ dockerize.qemu-nvme ]
 
 # Disable schedule since it is currently not used
 #  schedule:
@@ -161,7 +161,7 @@ jobs:
         docker build \
           -t refenv/qemu-nvme:latest \
           -t refenv/qemu-nvme:${TAG} \
-          -f docker/Dockerfile /tmp/docker
+          -f qemu-nvme/Dockerfile /tmp/docker
 
     - name: Push Docker image
       run: docker push refenv/qemu-nvme
