@@ -4,8 +4,6 @@ WORKDIR /opt
 
 COPY qemu qemu
 
-ENV PATH="/opt/qemu/bin:$PATH"
-
 RUN chmod +x qemu/bin/qemu-system-x86_64
 
 RUN apt-get -qy update && \
@@ -66,6 +64,11 @@ RUN echo "  StrictHostKeyChecking no" >> /root/.ssh/config
 RUN echo "  NoHostAuthenticationForLocalhost yes" >> /root/.ssh/config
 RUN echo "  UserKnownHostsFile=/dev/null" >> /root/.ssh/config
 RUN chmod 0400 /root/.ssh/config
+
+# This does not apply when SSH-ing to localhost, then ENV set by this is cleared
+ENV PATH="/opt/qemu/bin:$PATH"
+# So we also add it to /root/.profile
+RUN echo 'PATH="/opt/qemu/bin:$PATH"' > /root/.profile
 
 # Check that the correct qemu is being called
 RUN qemu-system-x86_64 --version
