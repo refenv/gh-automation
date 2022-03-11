@@ -4,9 +4,12 @@ This repository stores workflow definitions to produce reference environment for
 development via emulation provided by qemu, encapsulated in a docker container and with CIJOE for
 instrumentation. The workflows are named as:
 
-* ``dockerize.alpine-bash``, this is unrelated to the other two, it just provides an Alpine Linux
+* ``dockerize.alpine-bash``, this is unrelated to the others, it just provides an Alpine Linux
   Docker image on DockerHub with Git and Bash installed, and Bash set as the default Shell instead
   of ``sh``. It is re-build daily.
+
+* ``dockerize.xnvme-devtools``, this is unrelated to the others, it just provides an Debian
+  Bullseye Docker image on DockerHub with the tools installed to build xNVMe
 
 * ``dockerize.qemu-nvme``, produces a Docker-image with cijoe + qemu and publishes it on DockerHub
 
@@ -63,6 +66,27 @@ This workflow is run nightly, it produces a docker image based on ``alpine:lates
 but ``Bash`` and ``git`` added to it. This is done to have the latest Alpine Linux available for
 consumption by GitHUB CI actions which use Bash as the default shell and typically use ``git`` for
 checking out the source.
+
+## WF: dockerize.xnvme-devtools
+
+[![Status](https://github.com/refenv/gh-automation/workflows/dockerize.xnvme-devtools/badge.svg)](https://github.com/refenv/gh-automation/actions?query=workflow%3Adockerize.xnvme-devtools)
+[![Docker Pulls](https://img.shields.io/docker/pulls/refenv/xnvme-devtools)](https://hub.docker.com/r/refenv/xnvme-devtools)
+
+Assuming you have the xNVMe source-repository on the your Docker-host, then add it as a volume for
+the docker-container to access like so:
+
+    docker run -it -u 1000 -v ~/git/xnvme:/home/developer/xnvme refenv/xnvme-devtools
+
+Where ``~/git/xnvme`` is the path to the xNVMe repository on the Docker-host.
+Inside the docker-container you should now be able to:
+
+    cd xnvme
+    make
+
+Or, to run e.g. the source-formater:
+
+    cd xnvme
+    make source-format
 
 # Self-hosted runners
 
