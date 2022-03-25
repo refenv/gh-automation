@@ -1,0 +1,39 @@
+#
+# Create a image containing the tools needed to build xNVMe
+#
+name: dockerize.xnvme-devtools-ci
+
+on:
+  schedule:
+    - cron: "0 2 * * *"
+  push:
+    branches: [ dockerize.xnvme-devtools-ci ]
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+
+  build-xnvme-devtools-ci:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Grab sources
+      uses: actions/checkout@v2
+
+    - name: Log into docker registry
+      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+    - name: Create a docker context
+      run: |
+        mkdir -p /tmp/docker
+
+    - name: Build Docker image
+      run: |
+        docker build \
+          -t refenv/xnvme-devtools-ci:latest \
+          -f xnvme-devtools-ci/Dockerfile /tmp/docker
+
+    - name: Push Docker image
+      run: docker push refenv/xnvme-devtools-ci

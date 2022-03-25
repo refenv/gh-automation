@@ -88,6 +88,14 @@ Or, to run e.g. the source-formater:
     cd xnvme
     make source-format
 
+## WF: dockerize.xnvme-devtools-ci
+
+[![Status](https://github.com/refenv/gh-automation/workflows/dockerize.xnvme-devtools-ci/badge.svg)](https://github.com/refenv/gh-automation/actions?query=workflow%3Adockerize.xnvme-devtools-ci)
+[![Docker Pulls](https://img.shields.io/docker/pulls/refenv/xnvme-devtools-ci)](https://hub.docker.com/r/refenv/xnvme-devtools-ci)
+
+This Docker container is intended to be used by CI / GitHUB Actions. Similar to
+``dockerize.Alpine-Bash`` but with all the same tools available as ``dockerize.xnvme-devtools``.
+
 # Self-hosted runners
 
 The GitHub Hosted Runners does not support nested virtualization, we need that to have hw-supported
