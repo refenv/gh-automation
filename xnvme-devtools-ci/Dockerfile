@@ -2,6 +2,8 @@ FROM debian:bullseye
 
 LABEL maintainer "os@safl.dk"
 
+WORKDIR /root
+
 RUN apt-get -qy update && \
 	apt-get -qy \
 		-o "Dpkg::Options::=--force-confdef" \
@@ -37,5 +39,7 @@ RUN add-apt-repository "deb http://apt.llvm.org/bullseye/ llvm-toolchain-bullsey
 RUN apt-get -qy update
 
 RUN apt-get -qy install clang-format-14
+
+RUN update-alternatives --install /usr/bin/clang-format clang-format /usr/bin/clang-format-14 100
 
 CMD ["bash"]

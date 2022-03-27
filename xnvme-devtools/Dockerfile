@@ -2,6 +2,8 @@ FROM debian:bullseye
 
 LABEL maintainer "os@safl.dk"
 
+WORKDIR /root
+
 RUN apt-get -qy update && \
 	apt-get -qy \
 		-o "Dpkg::Options::=--force-confdef" \
@@ -30,8 +32,6 @@ RUN apt-get -qy install \
 
 RUN pip3 install meson ninja pyelftools pre-commit
 
-WORKDIR /root
-
 RUN wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
 
 RUN add-apt-repository "deb http://apt.llvm.org/bullseye/ llvm-toolchain-bullseye-14 main"
@@ -39,6 +39,8 @@ RUN add-apt-repository "deb http://apt.llvm.org/bullseye/ llvm-toolchain-bullsey
 RUN apt-get -qy update
 
 RUN apt-get -qy install clang-format-14
+
+RUN update-alternatives --install /usr/bin/clang-format clang-format /usr/bin/clang-format-14 100
 
 RUN useradd -ms /bin/bash dev
 
