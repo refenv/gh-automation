@@ -28,9 +28,10 @@ RUN apt-get -qy install \
 	pkg-config \
 	python3 \
 	python3-pip \
+	shellcheck \
 	uuid-dev
 
-RUN pip3 install meson ninja pyelftools pre-commit
+RUN pip3 install meson ninja pyelftools pre-commit virtualenv==20.0.33
 
 RUN wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
 
