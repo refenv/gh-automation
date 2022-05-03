@@ -39,6 +39,7 @@ RUN pip3 install breathe Jinja2 kmdo sphinx sphinx_rtd_theme sphinxcontrib-bibte
 
 RUN apt-get -qy install \
 	doxygen \
+	exuberant-ctags \
 	graphviz
 
 RUN wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
