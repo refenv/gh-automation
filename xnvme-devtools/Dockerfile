@@ -33,6 +33,13 @@ RUN apt-get -qy install \
 
 RUN pip3 install meson ninja pyelftools pre-commit virtualenv==20.0.33
 
+RUN pip3 install pre-commit
+
+RUN pip3 install breathe Jinja2 kmdo sphinx sphinx_rtd_theme sphinxcontrib-bibtex
+
+RUN apt-get -qy install \
+	doxygen
+
 RUN wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
 
 RUN add-apt-repository "deb http://apt.llvm.org/bullseye/ llvm-toolchain-bullseye-14 main"
