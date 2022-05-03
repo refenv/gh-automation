@@ -75,7 +75,7 @@ checking out the source.
 Assuming you have the xNVMe source-repository on the your Docker-host, then add it as a volume for
 the docker-container to access like so:
 
-    docker run -it -u 1000 -v ~/git/xnvme:/home/developer/xnvme refenv/xnvme-devtools
+    docker run -it -u 1000 -v ~/git/xnvme:/home/dev/xnvme refenv/xnvme-devtools
 
 Where ``~/git/xnvme`` is the path to the xNVMe repository on the Docker-host.
 Inside the docker-container you should now be able to:
