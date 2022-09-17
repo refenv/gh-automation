@@ -5,7 +5,7 @@
 #  - Containing latest CIJOE
 #  - envs, guests and scripts for CIJOE
 #
-# Uses the qemu from https://github.com/qemu/qemu.git branch: 'zrwa'
+# Uses the qemu from https://github.com/OpenMPDK/qemu.git branch: 'next'
 # Uses the latest CIJOE available from PyPI
 #
 name: dockerize.qemu-nvme
@@ -88,14 +88,14 @@ jobs:
 
     - name: Grab qemu source
       run: |
-        git clone --recursive https://gitlab.com/birkelund/qemu.git
+        git clone --recursive https://github.com/OpenMPDK/qemu.git
         cd qemu
-        git checkout zrwa
+        git checkout nvme-next
 
     - name: Configure qemu
       run: |
         mkdir build
-        mkdir /opt/qemu
+        mkdir -p /opt/qemu
         git -C qemu rev-parse --short HEAD > /opt/qemu/docker_tag.txt
         cd build
         ../qemu/configure \

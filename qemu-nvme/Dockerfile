@@ -46,8 +46,8 @@ RUN aptitude -q -y -f install \
 RUN ln -s /usr/bin/python3.8 /usr/bin/python
 
 # Install cijoe and the packages example and qemu packages
-RUN pip install cijoe cijoe-pkg-example cijoe-pkg-qemu || true
-RUN pip3 install cijoe cijoe-pkg-example cijoe-pkg-qemu || true
+RUN pip install cijoe cijoe-pkg-qemu || true
+RUN pip3 install cijoe cijoe-pkg-qemu || true
 
 # Setup SSH
 RUN echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
