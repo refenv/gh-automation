@@ -17,6 +17,7 @@ RUN apt-get -qy install \
 	wget
 
 RUN apt-get -qy install \
+	autoconf \
 	build-essential \
 	git \
 	libaio-dev \
@@ -24,6 +25,7 @@ RUN apt-get -qy install \
 	libncurses5-dev \
 	libnuma-dev \
 	libssl-dev \
+	libtool \
 	nasm \
 	pkg-config \
 	python3 \
