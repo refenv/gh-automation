@@ -54,6 +54,10 @@ RUN apt-get -qy install clang-format-14
 
 RUN update-alternatives --install /usr/bin/clang-format clang-format /usr/bin/clang-format-14 100
 
+RUN git clone https://github.com/axboe/liburing.git
+
+RUN cd liburing && git checkout liburing-2.2 && ./configure && make && make install
+
 RUN useradd -ms /bin/bash dev
 
 RUN usermod -aG sudo dev
