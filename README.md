@@ -142,8 +142,9 @@ Prepare the droplet via cloud-init:
     - software-properties-common
     runcmd:
       - ["mkdir", "/opt/ghar"]
-      - ["curl", "-o", "/tmp/ghar.tar.gz", "-L", "https://github.com/actions/runner/releases/download/v2.287.1/actions-runner-linux-x64-2.287.1.tar.gz"]
+      - ["curl", "-o", "/tmp/ghar.tar.gz", "-L", "https://github.com/actions/runner/releases/download/v2.301.1/actions-runner-linux-x64-2.301.1.tar.gz"]
       - ["tar", "xzf", "/tmp/ghar.tar.gz", "-C", "/opt/ghar"]
+
 
 Give it time to finish / settle. Then do manual configuration-step, logging into
 the droplet, declare some secret sauce:
